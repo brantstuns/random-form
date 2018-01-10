@@ -6,7 +6,7 @@ This is a small random form generator app that automatically pesists the user's 
 Make sure you install Redis and start it with something like:
 ```
 $ brew install redis
-$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
+$ redis-server
 
 ```
 
