@@ -19,4 +19,4 @@ $ yarn dev
 
 now head to `localhost:3000` and play around with some data hydration!
 
-![nice!](random-form-screenshot.png "what it looks like")
+![nice!](screenshot.png "what it looks like")
