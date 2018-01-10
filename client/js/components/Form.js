@@ -79,11 +79,6 @@ export class Form extends React.Component {
           })}
           <div className="btn-container">
             <div className="text-center">
-              <button type="submit" className="btn btn-start-order">
-                Save
-              </button>
-            </div>
-            <div className="text-center">
               <button type="button" className="btn btn-start-order" onClick={this.handleRestart}>
                 Restart
               </button>

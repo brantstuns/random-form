@@ -10,7 +10,7 @@ $ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 
 ```
 
-make sure you have `yarn` and `node LTS` installed as well
+make sure you have `Yarn` and `Node` LTS (v8.9.0 at the time of writing) installed as well
 
 ```
 $ yarn
