@@ -21,7 +21,6 @@ module.exports = redis => async (req, res) => {
             completed: sessionState.completed
           }
         }));
-        console.log(sessionInfo);
         return res.status(200).json({ sessions: sessionInfo });
       }
 
