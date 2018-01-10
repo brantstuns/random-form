@@ -27,7 +27,7 @@ textarea, input, button { outline: none; }
 .form-label {
   font-size: 18px;
   font-family: Hack, monospace;
-  color: #63DAF9;
+  color: #7ED8F7;
   margin: 0;
   display: block;
   opacity: 1;
@@ -51,7 +51,7 @@ textarea, input, button { outline: none; }
 }
 .form-control:focus {
   box-shadow: none;
-  border-color: #63DAF9;
+  border-color: #7ED8F7;
 }
 .js-hide-label {
   opacity: 0;
@@ -74,13 +74,13 @@ textarea, input, button { outline: none; }
   align-items: center;
 
   &.retrieve {
-    color: #63DAF9;
+    color: #7ED8F7;
   }
 }
 
 .btn-start-order:hover,.btn-start-order:active, .btn-start-order:focus {
-  border-color:#63DAF9;
-  color: #63DAF9;
+  border-color:#7ED8F7;
+  color: #7ED8F7;
 }
 
 .text-center {
