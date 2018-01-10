@@ -1,4 +1,4 @@
-import randomQuestionsArray from '../randomQuestionsArray';
+import randomQuestionsArray from '../helpers/randomQuestionsArray';
 
 export const inputChange = (val, questionIdx) => ({
   type: 'UPDATE_INPUT',
@@ -41,14 +41,24 @@ export const createNewSession = sessionId => ({
 });
 
 export const retrieveFormState = (retrievalUser, sessionId) => dispatch => {
-  const url = `getSession/${retrievalUser}${sessionId ? `/${sessionId}` : ''}`
+  const url = `getSession/${retrievalUser}${sessionId ? `/${sessionId}` : ''}`;
   return fetch(url)
     .then(res => res.json())
     .then(json => {
+      console.log(json);
       if (json.sessions) {
-        return dispatch({ type: 'SHOW_SESSION_CHOICES', payload: json.sessions });
+        return dispatch({
+          type: 'SHOW_SESSION_CHOICES',
+          payload: json.sessions
+        });
       } else {
         return dispatch({ type: 'HYDRATE_APP', payload: json });
       }
-    }).catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
 };
+
+export const completedForm = val => ({
+  type: 'COMPLETED_FORM',
+  payload: val
+});

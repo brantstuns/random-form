@@ -7,6 +7,7 @@ const initialState = {
     }
   },
   form: {
+    completed: false,
     questionNames: [0],
     questions: {
       0: {
@@ -19,8 +20,14 @@ const initialState = {
 
 export default function rootReducer(state = initialState, action) {
   switch (action.type) {
-    case 'HYDRATE_APP':
-      return Object.assign({}, state, action.payload);
+    case 'COMPLETED_FORM': {
+      const formState = Object.assign({}, state.form, { completed: action.payload });
+      return Object.assign({}, state, { form: formState });
+    }
+    case 'HYDRATE_APP': {
+      const formState = Object.assign({}, state.form, action.payload.form);
+      return Object.assign({}, state, { form: formState, sessionId: action.payload.sessionId });
+    }
     case 'GENERATE_NEW_SESSION':
       return Object.assign({}, state, { sessionId: action.payload.sessionId });
     case 'UPDATE_INPUT': {
@@ -55,7 +62,8 @@ export default function rootReducer(state = initialState, action) {
       }, initialState.form.questions);
       const formState = Object.assign({}, state.form, {
         questionNames,
-        questions: initializeQuestions
+        questions: initializeQuestions,
+        completed: false
       });
       return Object.assign({}, state, { form: formState });
     }

@@ -12,9 +12,19 @@ module.exports = redis => async (req, res) => {
       if (sessionIds.length === 1) {
         const state = await redis.hget(user, sessionIds[0]);
         return res.status(200).json(JSON.parse(state));
+      } else {
+        const sessionInfo = await Promise.all(sessionIds.map(async (session, idx) => {
+          const sessionState = JSON.parse(await redis.hget(user, sessionIds[idx]));
+          return {
+            sessionId: session,
+            timeStamp: sessionState.timeStamp,
+            completed: sessionState.completed
+          }
+        }));
+        console.log(sessionInfo);
+        return res.status(200).json({ sessions: sessionInfo });
       }
 
-      return res.status(200).json({ sessions: sessionIds });
     }
   } catch (err) {
     console.log(err);

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../store/actions';
 import uuid from 'uuid-js';
-import { validateEmail } from '../validators';
+import { validateEmail } from '../helpers/validators';
 
 const mapStateToProps = state => ({
   sessionId: state.sessionId,
@@ -18,17 +18,33 @@ const mapDispatchToProps = dispatch => ({
 export class Prompt extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      showSavedSessions: false
+    };
+
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.retrieveSessionState = this.retrieveSessionState.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.sessionOptions && !this.state.showSavedSessions) {
+      this.setState({ showSavedSessions: true });
+    }
   }
 
   handleButtonClick(retrievalEmail, sessionId) {
-    if (validateEmail(retrievalEmail)) {
-      this.props.actions.retrieveFormState(retrievalEmail, sessionId);
+    if (validateEmail(retrievalEmail) && !this.state.showSavedSessions) {
+      this.retrieveSessionState(retrievalEmail, sessionId);
     } else {
       this.props.actions.createNewSession(uuid.create(4).toString());
       this.props.actions.initializeQuestions();
     }
+  }
+
+  retrieveSessionState(email, sessionId) {
+    return this.props.actions.retrieveFormState(email, sessionId);
   }
 
   handleEmailChange(e) {
@@ -63,24 +79,29 @@ export class Prompt extends React.Component {
         <div className="text-center">
           <button
             onClick={() => this.handleButtonClick(question.inputValue)}
-            className="btn btn-start-order"
+            className={`btn btn-start-order${validateEmail(question.inputValue) && !this.state.showSavedSessions ? ' retrieve' : ''}`}
           >
-            {validateEmail(question.inputValue)
+            {validateEmail(question.inputValue) && !this.state.showSavedSessions
               ? 'retrieve'
               : 'or fill out a new form'}
           </button>
         </div>
         {sessionOptions &&
-          sessionOptions.map(session => (
-            <div
-              key={session}
-              onClick={() =>
-                this.handleButtonClick(question.inputValue, session)
-              }
-            >
-              {session}
-            </div>
-          ))}
+          <div className="previous-session-container">
+            {sessionOptions.map(session => (
+              <div
+                className="previous-session"
+                key={uuid.create(4).toString()}
+                onClick={() =>
+                  this.retrieveSessionState(question.inputValue, session.sessionId)
+                }
+              >
+                <span>{session.timeStamp}</span>
+                <span>{`completed: ${session.completed}`}</span>
+              </div>
+            ))}
+          </div>
+        }
       </div>
     );
   }

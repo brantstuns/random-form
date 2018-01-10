@@ -21,6 +21,16 @@ export class Form extends React.Component {
     this.handleRestart = this.handleRestart.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const fieldsAnswered = nextProps.form.questionNames.find(name => !nextProps.form.questions[name].inputValue) === undefined;
+
+    if (fieldsAnswered && !nextProps.form.completed) {
+      this.props.actions.completedForm(true);
+    } else if (!fieldsAnswered && nextProps.form.completed) {
+      this.props.actions.completedForm(false);
+    }
+  }
+
   handleChange(event, questionIndex) {
     event.preventDefault();
     this.props.actions.inputChange(event.target.value, questionIndex);

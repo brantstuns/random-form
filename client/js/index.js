@@ -8,7 +8,9 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './store/reducers/rootReducer';
 import _throttle from 'lodash.throttle';
-import { validateEmail } from './validators';
+import { validateEmail } from './helpers/validators';
+import { persistSessionCall } from './api/requests';
+import prepStateForPersist from './helpers/prepStateForPersist';
 
 const store = createStore(
   rootReducer,
@@ -23,25 +25,11 @@ const persistForHydration = () => {
   const sessionId = state.sessionId;
   const email = state.form.questions[0].inputValue;
   if (sessionId && validateEmail(email)) {
-    const body = {
-      email,
-      sessionId,
-      state
-    };
-    return fetch('saveForm', {
-      method: 'post',
-      body: JSON.stringify(body),
-      headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-      }
-    })
-      .then(res => res.OK && console.log('nice'))
-      .catch(err => console.log(err));
+    return persistSessionCall(prepStateForPersist(state));
   }
 };
 
-const throttledPersist = _throttle(persistForHydration, 3000, {'leading': false});
+const throttledPersist = _throttle(persistForHydration, 500, {'leading': false});
 store.subscribe(throttledPersist);
 
 ReactDOM.render(

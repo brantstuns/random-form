@@ -15,11 +15,11 @@ module.exports = {
     app.use(bodyParser.json());
 
     app.post('/saveForm', async (req, res) => {
-      const { sessionId, email, state } = req.body;
+      const { sessionId, email, form } = req.body;
 
-      if (sessionId && email && state) {
+      if (sessionId && email && form) {
         try {
-          await redis.hset(email, sessionId, JSON.stringify(state));
+          await redis.hset(email, sessionId, JSON.stringify(req.body));
           return res.sendStatus(200);
         } catch (err) {
           return res.status(500).send(err);
