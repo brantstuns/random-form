@@ -45,7 +45,6 @@ export const retrieveFormState = (retrievalUser, sessionId) => dispatch => {
   return fetch(url)
     .then(res => res.json())
     .then(json => {
-      console.log(json);
       if (json.sessions) {
         return dispatch({
           type: 'SHOW_SESSION_CHOICES',

@@ -19,7 +19,7 @@ module.exports = {
 
       if (sessionId && email && form) {
         try {
-          await redis.hset(email, sessionId, JSON.stringify(req.body));
+          await redis.hset(email.toLowerCase(), sessionId, JSON.stringify(req.body));
           return res.sendStatus(200);
         } catch (err) {
           return res.status(500).send(err);

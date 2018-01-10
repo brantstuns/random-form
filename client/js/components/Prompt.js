@@ -44,7 +44,7 @@ export class Prompt extends React.Component {
   }
 
   retrieveSessionState(email, sessionId) {
-    return this.props.actions.retrieveFormState(email, sessionId);
+    return this.props.actions.retrieveFormState(email.toLowerCase(), sessionId);
   }
 
   handleEmailChange(e) {

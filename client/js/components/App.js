@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../store/actions';
 
 const mapStateToProps = state => ({
-  completed: state.form.completed,
   sessionId: state.sessionId
 });
 
@@ -17,10 +16,10 @@ const mapDispatchToProps = dispatch => ({
 
 export class App extends React.Component {
   render() {
-    const { completed, sessionId } = this.props;
+    const { sessionId } = this.props;
     return (
       <div className="container">
-        <Topbar completed={completed} />
+        <Topbar />
         {sessionId ? <Form /> : <Prompt />}
       </div>
     );

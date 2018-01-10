@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function Topbar(props) {
+export default function Topbar() {
   return (
-    <div className={props.completed ? 'top-bar completed' : 'top-bar'}>
+    <div className="top-bar">
       <span>data hydration</span>
     </div>
   );
